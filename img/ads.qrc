@@ -1,0 +1,14 @@
+<RCC>
+  <qresource prefix="newPrefix">
+    <file>4877ef81071025.5cf4430db01f0.jpg</file>
+    <file>5918e181071025.5cf4430e847c4.jpg</file>
+    <file>79163b81071025.5cf4430e421cf.jpg</file>
+    <file>86926e81071025.5cf4430de8395.jpg</file>
+    <file>ad1de081071025.5cf4430e41db0.jpg</file>
+    <file>b6bc4f81071025.5cf4430de80f0.jpg</file>
+    <file>c07e4c81071025.5cf4430d76cd8.jpg</file>
+    <file>login_bg.png</file>
+    <file>../../桌面背景/pic/84bcda33088631.569f713b756c7.jpg</file>
+  </qresource>
+  <qresource prefix="newPrefix"/>
+</RCC>
