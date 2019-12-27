@@ -13,10 +13,19 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_login_page(object):
     def setupUi(self, login_page):
         login_page.setObjectName("login_page")
-        login_page.resize(678, 421)
+        login_page.resize(687, 424)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(login_page.sizePolicy().hasHeightForWidth())
+        login_page.setSizePolicy(sizePolicy)
+        login_page.setMinimumSize(QtCore.QSize(687, 424))
+        login_page.setMaximumSize(QtCore.QSize(687, 424))
         login_page.setFocusPolicy(QtCore.Qt.TabFocus)
         self.bg_frame = QtWidgets.QFrame(login_page)
         self.bg_frame.setGeometry(QtCore.QRect(-10, -10, 741, 451))
+        self.bg_frame.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+        self.bg_frame.setMouseTracking(True)
         self.bg_frame.setStyleSheet("*{\n"
 "background:rgb(40,53,88);\n"
 "font-family:Aharoni;\n"
@@ -29,7 +38,7 @@ class Ui_login_page(object):
 "}\n"
 "QLineEdit{\n"
 "background-color:rgba(229,240,249,200);\n"
-"color:#F08688;\n"
+"color:black;\n"
 "font-size:20px;\n"
 "border-style:outset;\n"
 "border-radius:10px;\n"
@@ -40,26 +49,27 @@ class Ui_login_page(object):
 "font-size:18px;\n"
 "}\n"
 "QPushButton{\n"
-"background:#ced1d8;\n"
+"background:rgba(99,140,170,100);\n"
 "border-style:outset;\n"
 "border-radius:10px;\n"
 "font-size:20px;\n"
-"font-family:Adobe 黑体 Std R;\n"
+"font:bold;\n"
+"font-family:微软雅黑;\n"
+"color:white;\n"
 "}\n"
 "QPushButton:Pressed{\n"
-"background-color:rgba(224,0,0,0);\n"
+"background-color:rgba(99,140,170,200);\n"
 "border-style:inset;\n"
 "font-size:15px;\n"
-"font-family:Adobe 黑体 Std R;\n"
+"font-family:微软雅黑;\n"
 "\n"
-"}")
+"}\n"
+"\n"
+"\n"
+"")
         self.bg_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.bg_frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.bg_frame.setObjectName("bg_frame")
-        self.label_3 = QtWidgets.QLabel(self.bg_frame)
-        self.label_3.setGeometry(QtCore.QRect(460, 370, 191, 20))
-        self.label_3.setStyleSheet("")
-        self.label_3.setObjectName("label_3")
         self.username = QtWidgets.QLineEdit(self.bg_frame)
         self.username.setGeometry(QtCore.QRect(190, 90, 341, 51))
         self.username.setFocusPolicy(QtCore.Qt.StrongFocus)
@@ -68,7 +78,7 @@ class Ui_login_page(object):
         self.password = QtWidgets.QLineEdit(self.bg_frame)
         self.password.setGeometry(QtCore.QRect(190, 180, 341, 51))
         palette = QtGui.QPalette()
-        brush = QtGui.QBrush(QtGui.QColor(240, 134, 136))
+        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
         brush = QtGui.QBrush(QtGui.QColor(229, 240, 249, 200))
@@ -86,13 +96,13 @@ class Ui_login_page(object):
         brush = QtGui.QBrush(QtGui.QColor(169, 35, 44))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Mid, brush)
-        brush = QtGui.QBrush(QtGui.QColor(240, 134, 136))
+        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Text, brush)
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.BrightText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(240, 134, 136))
+        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
         brush = QtGui.QBrush(QtGui.QColor(229, 240, 249, 200))
@@ -116,7 +126,7 @@ class Ui_login_page(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 128))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.PlaceholderText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(240, 134, 136))
+        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
         brush = QtGui.QBrush(QtGui.QColor(229, 240, 249, 200))
@@ -134,13 +144,13 @@ class Ui_login_page(object):
         brush = QtGui.QBrush(QtGui.QColor(169, 35, 44))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Mid, brush)
-        brush = QtGui.QBrush(QtGui.QColor(240, 134, 136))
+        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Text, brush)
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.BrightText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(240, 134, 136))
+        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
         brush = QtGui.QBrush(QtGui.QColor(229, 240, 249, 200))
@@ -164,7 +174,7 @@ class Ui_login_page(object):
         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0, 128))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.PlaceholderText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(240, 134, 136))
+        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
         brush = QtGui.QBrush(QtGui.QColor(229, 240, 249, 200))
@@ -182,13 +192,13 @@ class Ui_login_page(object):
         brush = QtGui.QBrush(QtGui.QColor(169, 35, 44))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Mid, brush)
-        brush = QtGui.QBrush(QtGui.QColor(240, 134, 136))
+        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Text, brush)
         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.BrightText, brush)
-        brush = QtGui.QBrush(QtGui.QColor(240, 134, 136))
+        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, brush)
         brush = QtGui.QBrush(QtGui.QColor(229, 240, 249, 200))
@@ -214,17 +224,14 @@ class Ui_login_page(object):
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.PlaceholderText, brush)
         self.password.setPalette(palette)
         self.password.setStyleSheet("")
+        self.password.setEchoMode(QtWidgets.QLineEdit.Password)
         self.password.setObjectName("password")
         self.login = QtWidgets.QPushButton(self.bg_frame)
         self.login.setGeometry(QtCore.QRect(404, 300, 111, 31))
         self.login.setObjectName("login")
         self.cancel_login = QtWidgets.QPushButton(self.bg_frame)
         self.cancel_login.setGeometry(QtCore.QRect(200, 300, 111, 31))
-        self.cancel_login.setStyleSheet("QPushButton{\n"
-"background:#ced1d8;\n"
-"border-style:outset;\n"
-"border-radius:10px;\n"
-"}")
+        self.cancel_login.setStyleSheet("")
         self.cancel_login.setObjectName("cancel_login")
         self.remember_me_check = QtWidgets.QCheckBox(self.bg_frame)
         self.remember_me_check.setGeometry(QtCore.QRect(200, 270, 171, 21))
@@ -409,14 +416,62 @@ class Ui_login_page(object):
         self.label_2.setFont(font)
         self.label_2.setStyleSheet("")
         self.label_2.setObjectName("label_2")
-        self.label_4 = QtWidgets.QLabel(self.bg_frame)
-        self.label_4.setGeometry(QtCore.QRect(40, 390, 361, 31))
-        self.label_4.setObjectName("label_4")
+        self.registerButton = QtWidgets.QPushButton(self.bg_frame)
+        self.registerButton.setGeometry(QtCore.QRect(450, 352, 221, 41))
+        font = QtGui.QFont()
+        font.setFamily("Arial")
+        font.setPointSize(-1)
+        font.setBold(True)
+        font.setItalic(False)
+        font.setWeight(75)
+        font.setStyleStrategy(QtGui.QFont.PreferDefault)
+        self.registerButton.setFont(font)
+        self.registerButton.setStyleSheet("QPushButton{\n"
+"background:rgba(100,10,51,0);\n"
+"color:white;\n"
+"\n"
+"font-size:20px;\n"
+"font-family:Arial;\n"
+"\n"
+"}\n"
+"QPushButton:hover{\n"
+"background:rgba(130,10,51,120);\n"
+"color:white;\n"
+"cursor:Pointing Hand;\n"
+"font-size:20px;\n"
+"font-family:Arial;\n"
+"}")
+        self.registerButton.setObjectName("registerButton")
+        self.lineEdit = QtWidgets.QLineEdit(self.bg_frame)
+        self.lineEdit.setGeometry(QtCore.QRect(50, 400, 571, 20))
+        self.lineEdit.setMouseTracking(False)
+        self.lineEdit.setStyleSheet("QLineEdit{\n"
+"background:rgba(229,240,249,0);\n"
+"color:white;\n"
+"font:bold;\n"
+"border-style:none;\n"
+"font-size:18px;\n"
+"font-family:微软雅黑;\n"
+"}")
+        self.lineEdit.setReadOnly(True)
+        self.lineEdit.setObjectName("lineEdit")
+        self.label_3 = QtWidgets.QLabel(self.bg_frame)
+        self.label_3.setGeometry(QtCore.QRect(50, 372, 531, 20))
+        self.label_3.setStyleSheet("QLineEdit{\n"
+"background:rgba(229,240,249,0);\n"
+"color:white;\n"
+"font:bold;\n"
+"border-style:none;\n"
+"font-size:18px;\n"
+"font-family:微软雅黑;\n"
+"}")
+        self.label_3.setText("")
+        self.label_3.setObjectName("label_3")
 
         self.retranslateUi(login_page)
         self.login.clicked.connect(login_page.login)
-        self.cancel_login.clicked.connect(login_page.hide)
-        self.login.clicked.connect(self.label_4.show)
+        self.cancel_login.clicked.connect(login_page.close)
+        self.registerButton.clicked.connect(login_page.close)
         QtCore.QMetaObject.connectSlotsByName(login_page)
         login_page.setTabOrder(self.password, self.username)
         login_page.setTabOrder(self.username, self.cancel_login)
@@ -424,10 +479,9 @@ class Ui_login_page(object):
     def retranslateUi(self, login_page):
         _translate = QtCore.QCoreApplication.translate
         login_page.setWindowTitle(_translate("login_page", "Login"))
-        self.label_3.setText(_translate("login_page", "NEW USER? SIGN UP"))
         self.login.setText(_translate("login_page", "确定"))
         self.cancel_login.setText(_translate("login_page", "取消"))
         self.remember_me_check.setText(_translate("login_page", "REMEMBER ME"))
         self.label.setText(_translate("login_page", "USERNAME"))
         self.label_2.setText(_translate("login_page", "PASSWORD"))
-        self.label_4.setText(_translate("login_page", ""))
+        self.registerButton.setText(_translate("login_page", "NEW USER? SIGN UP"))

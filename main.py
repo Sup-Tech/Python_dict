@@ -1,13 +1,15 @@
-import sys
-from PyQt5 import QtWidgets
-from gui_client import Example
+"""
+客户端执行文件
+"""
+from app import ProcessApp
+
+
+def main():
+
+    pc = ProcessApp()
+    pc.start()
+    pc.close()
 
 
 if __name__ == '__main__':
-
-
-    app = QtWidgets.QApplication(sys.argv)
-    w = Example()
-
-    w.show()
-    sys.exit(app.exec_())
+    main()

@@ -2,7 +2,7 @@ from socket import *
 import json
 
 sock = socket()
-addr = ('192.168.10.156', 25014)
+addr = ('127.0.0.1', 25014)
 sock.connect(addr)
 data = {'protocol': 'LOGIN', 'name': 'aaa', 'pwd': '13456'}
 data = json.dumps(data)
