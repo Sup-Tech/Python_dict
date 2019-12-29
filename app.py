@@ -5,7 +5,7 @@ from gui_client import *
 from PyQt5.QtWidgets import QApplication
 import sys
 from client import Client
-
+from control import *
 
 class ProcessApp:
     def __init__(self):
@@ -14,9 +14,10 @@ class ProcessApp:
         """
         self.app = QApplication(sys.argv)
         self.client = Client()
-        self.main_page = PythonDict(self.client)
-        self.login_page = LoginWindow(self.client)
-        self.register_page = RegisterWindow(self.client)
+        self.control = Control(self.client)
+        self.main_page = PythonDict(self.control)
+        self.login_page = LoginWindow(self.control)
+        self.register_page = RegisterWindow(self.control)
 
     def start(self):
         """

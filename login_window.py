@@ -33,7 +33,7 @@ class Ui_login_page(object):
 "}\n"
 "QFrame{\n"
 "background:\n"
-"url(./img/4877ef81071025.5cf4430db01f0.jpg);\n"
+"url(:/newPrefix/4877ef81071025.5cf4430db01f0.jpg);\n"
 "font-size:30px;\n"
 "}\n"
 "QLineEdit{\n"
@@ -442,10 +442,10 @@ class Ui_login_page(object):
 "font-family:Arial;\n"
 "}")
         self.registerButton.setObjectName("registerButton")
-        self.lineEdit = QtWidgets.QLineEdit(self.bg_frame)
-        self.lineEdit.setGeometry(QtCore.QRect(50, 400, 571, 20))
-        self.lineEdit.setMouseTracking(False)
-        self.lineEdit.setStyleSheet("QLineEdit{\n"
+        self.login_status_bar = QtWidgets.QLineEdit(self.bg_frame)
+        self.login_status_bar.setGeometry(QtCore.QRect(50, 400, 571, 20))
+        self.login_status_bar.setMouseTracking(False)
+        self.login_status_bar.setStyleSheet("QLineEdit{\n"
 "background:rgba(229,240,249,0);\n"
 "color:white;\n"
 "font:bold;\n"
@@ -453,8 +453,8 @@ class Ui_login_page(object):
 "font-size:18px;\n"
 "font-family:微软雅黑;\n"
 "}")
-        self.lineEdit.setReadOnly(True)
-        self.lineEdit.setObjectName("lineEdit")
+        self.login_status_bar.setReadOnly(True)
+        self.login_status_bar.setObjectName("login_status_bar")
         self.label_3 = QtWidgets.QLabel(self.bg_frame)
         self.label_3.setGeometry(QtCore.QRect(50, 372, 531, 20))
         self.label_3.setStyleSheet("QLineEdit{\n"
