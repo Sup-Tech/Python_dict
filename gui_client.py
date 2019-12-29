@@ -3,6 +3,7 @@ GUI界面对象
 """
 
 from PyQt5.QtWidgets import QMainWindow, QWidget
+from PyQt5 import QtCore, QtWidgets, QtGui
 from login_window import *
 from python_dict import *
 from register_page import *
@@ -39,11 +40,19 @@ class PythonDict(QMainWindow):
         """
         QMainWindow.__init__(self)
         self.main_ui = Ui_MainWindow()
+        self.initUI()
         self.main_ui.setupUi(self)
         # 传入control对象
         self.control = control
         # 字典查询结果
         self.dict_re_data = {}
+
+    def initUI(self):
+        """
+            设置UI界面
+        """
+        # 设置窗口 Icon
+        self.setWindowIcon(QtGui.QIcon('./img/Quantum light logo bold.png'))
 
     def search(self):
         """ 搜索按钮 点击 后执行此方法 """
@@ -66,11 +75,15 @@ class PythonDict(QMainWindow):
         # 删除字典中的协议
         del data['protocol']
         self.dict_re_data = data
-        # 把单词查询结果 在界面列表显示出来
+    # 把单词查询结果 在界面列表显示出来
+        # 清屏 --> search_result_list
         self.main_ui.search_result_list.clear()
         for value in data.values():
+            # search_result_list添加条目
             self.main_ui.search_result_list.addItem(value['word'])
+            # 判定 search_bar 中的搜索词 是否一样
             if value['word'] == self.main_ui.search_bar.text():
+                # 清屏--> result_browser
                 self.main_ui.result_browser.clear()
                 self.dict_result_display_logic(value)
 
@@ -118,6 +131,22 @@ class PythonDict(QMainWindow):
                 result = '解释: ' + value
                 self.main_ui.result_browser.append(result)
 
+    # --------------------------------------------------------- 往下 Note 部分代码
+
+    # def list_pop_menu(self):
+    #     self.popMenu = QtWidgets.QMenu(self.main_ui.search_result_list)
+    #     self.item_del = QtWidgets.QAction(QtGui.QIcon('./img/del.jpg'), '删除', self)
+    #     self.popMenu.addAction(self.item_del)
+    #     # popMenu出现在窗口的位置
+    #     self.popMenu.exec_(QtGui.QCursor.pos())
+    #     if self.item_del.isEnabled():
+    #         self.del_item()
+    #
+    # def del_item(self):
+    #     print('yes')
+
+        # self.search_result_list.setContextMenuPolicy(3)
+        # self.search_result_list.customContextMenuRequested[QtCore.QPoint].connect(MainWindow.list_pop_menu)
 
 class LoginWindow(QWidget):
     """

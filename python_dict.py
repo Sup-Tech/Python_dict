@@ -14,6 +14,12 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(873, 677)
+        MainWindow.setStyleSheet("QListWidget{\n"
+"font: 20pt \"Browallia New\";\n"
+"}\n"
+"QTextBrowser{\n"
+"font: 20pt \"Adobe 黑体 Std R\";\n"
+"}")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.horizontalLayout_2 = QtWidgets.QHBoxLayout(self.centralwidget)
@@ -64,6 +70,12 @@ class Ui_MainWindow(object):
         self.gridLayout_5.setObjectName("gridLayout_5")
         self.gridLayout_4 = QtWidgets.QGridLayout()
         self.gridLayout_4.setObjectName("gridLayout_4")
+        spacerItem1 = QtWidgets.QSpacerItem(40, 30, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
+        self.gridLayout_4.addItem(spacerItem1, 0, 2, 1, 1)
+        self.note_title = QtWidgets.QLineEdit(self.tab_note)
+        self.note_title.setMinimumSize(QtCore.QSize(0, 30))
+        self.note_title.setObjectName("note_title")
+        self.gridLayout_4.addWidget(self.note_title, 0, 0, 1, 1)
         self.checkBoxNote = QtWidgets.QCheckBox(self.tab_note)
         self.checkBoxNote.setContextMenuPolicy(QtCore.Qt.DefaultContextMenu)
         icon = QtGui.QIcon()
@@ -75,12 +87,6 @@ class Ui_MainWindow(object):
         self.checkBoxNote.setTristate(False)
         self.checkBoxNote.setObjectName("checkBoxNote")
         self.gridLayout_4.addWidget(self.checkBoxNote, 0, 1, 1, 1)
-        self.note_title = QtWidgets.QLineEdit(self.tab_note)
-        self.note_title.setMinimumSize(QtCore.QSize(0, 30))
-        self.note_title.setObjectName("note_title")
-        self.gridLayout_4.addWidget(self.note_title, 0, 0, 1, 1)
-        spacerItem1 = QtWidgets.QSpacerItem(40, 30, QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
-        self.gridLayout_4.addItem(spacerItem1, 0, 2, 1, 1)
         self.note_profile = QtWidgets.QLabel(self.tab_note)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Fixed)
         sizePolicy.setHorizontalStretch(0)
@@ -90,8 +96,12 @@ class Ui_MainWindow(object):
         self.note_profile.setMinimumSize(QtCore.QSize(0, 30))
         self.note_profile.setSizeIncrement(QtCore.QSize(0, 50))
         self.note_profile.setBaseSize(QtCore.QSize(0, 50))
+        self.note_profile.setText("")
         self.note_profile.setObjectName("note_profile")
-        self.gridLayout_4.addWidget(self.note_profile, 1, 0, 1, 3)
+        self.gridLayout_4.addWidget(self.note_profile, 1, 0, 1, 1)
+        self.new_button = QtWidgets.QPushButton(self.tab_note)
+        self.new_button.setObjectName("new_button")
+        self.gridLayout_4.addWidget(self.new_button, 1, 1, 1, 1)
         self.gridLayout_5.addLayout(self.gridLayout_4, 0, 1, 1, 1)
         spacerItem2 = QtWidgets.QSpacerItem(20, 50, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Fixed)
         self.gridLayout_5.addItem(spacerItem2, 0, 0, 1, 1)
@@ -139,16 +149,21 @@ class Ui_MainWindow(object):
         self.retranslateUi(MainWindow)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+        # 自己添加的代码
         self.search.clicked.connect(MainWindow.search)
         self.search_result_list.itemClicked.connect(MainWindow.list_re_clicked)
+        self.notes_list.setContextMenuPolicy(3)
+        self.notes_list.customContextMenuRequested[QtCore.QPoint].connect(MainWindow.list_pop_menu)
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Python Dictionary"))
         self.search.setText(_translate("MainWindow", "搜索"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_dict), _translate("MainWindow", "字典"))
         self.checkBoxNote.setText(_translate("MainWindow", "编辑"))
-        self.note_profile.setText(_translate("MainWindow", "TextLabel"))
+        self.new_button.setText(_translate("MainWindow", "新建"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_note), _translate("MainWindow", "笔记"))
         self.menulogin.setTitle(_translate("MainWindow", "account"))
         self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
         self.actionlogin.setText(_translate("MainWindow", "login"))
+
