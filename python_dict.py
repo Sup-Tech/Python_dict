@@ -11,6 +11,10 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 
 
 class Ui_MainWindow(object):
+    def __init__(self, loginPage, registerPage):
+        self.loginPage = loginPage
+        self.registerPage = registerPage
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(873, 677)
@@ -150,15 +154,14 @@ class Ui_MainWindow(object):
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
         # 自己添加的代码
-        self.search.clicked.connect(MainWindow.search)
-        self.search_result_list.itemClicked.connect(MainWindow.list_re_clicked)
-        self.notes_list.setContextMenuPolicy(3)
-        self.notes_list.customContextMenuRequested[QtCore.QPoint].connect(MainWindow.list_pop_menu)
+        # self.notes_list.setContextMenuPolicy(3)
+        # self.notes_list.customContextMenuRequested[QtCore.QPoint].connect(MainWindow.list_pop_menu)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "Python Dictionary"))
         self.search.setText(_translate("MainWindow", "搜索"))
+        self.search.setShortcut(_translate("MainWindow", "Return"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_dict), _translate("MainWindow", "字典"))
         self.checkBoxNote.setText(_translate("MainWindow", "编辑"))
         self.new_button.setText(_translate("MainWindow", "新建"))
@@ -166,4 +169,3 @@ class Ui_MainWindow(object):
         self.menulogin.setTitle(_translate("MainWindow", "account"))
         self.toolBar.setWindowTitle(_translate("MainWindow", "toolBar"))
         self.actionlogin.setText(_translate("MainWindow", "login"))
-

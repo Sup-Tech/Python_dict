@@ -7,6 +7,7 @@ class Control:
         self.noteLg = NoteLogic(self.client)
         self.dictLg = DictLogic(self.client)
         self.logLg = LogLogic(self.client)
+        self.regLg = RegLogic(self.client)
 
     def signal_in(self, signal, data):
         """
@@ -18,6 +19,9 @@ class Control:
             return self.dictLg.query(data)
         elif signal == 'LOGOK':
             return self.logLg.login(data)
+        elif signal == 'REG':
+            return self.regLg.register(data)
+
 
 class Logic:
     def __init__(self):
@@ -56,6 +60,18 @@ class LogLogic:
         self.client = client
 
     def login(self, data):
+        self.client.send(data)
+        print('发送成功')
+        msg = self.client.recive()
+        print('接收成功', msg)
+        return msg
+
+
+class RegLogic:
+    def __init__(self, client):
+        self.client = client
+
+    def register(self, data):
         self.client.send(data)
         print('发送成功')
         msg = self.client.recive()

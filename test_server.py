@@ -26,7 +26,20 @@ while True:
         msg = json.dumps(msg)
         connfd.send(msg.encode())
     elif data['protocol'] == 'LOG':
-        print(data)
-        msg = {'protocol': 'LOGUNE'}
+        if data['name'] == 'Juban':
+            msg = {'protocol': 'LOGOK'}
+        elif data['pwd'] == '1':
+            msg = {'protocol': 'LOGWP'}
+        else:
+            msg = {'protocol': 'LOGUNE'}
+        msg = json.dumps(msg)
+        connfd.send(msg.encode())
+    elif data['protocol'] == 'REG':
+        print('server', data)
+        username = 'Juban'
+        if data['username'] == 'Juban':
+            msg = {'protocol': 'REGUU'}
+        else:
+            msg = {'protocol': 'REGOK'}
         msg = json.dumps(msg)
         connfd.send(msg.encode())
