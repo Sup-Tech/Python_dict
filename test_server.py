@@ -43,3 +43,13 @@ while True:
             msg = {'protocol': 'REGOK'}
         msg = json.dumps(msg)
         connfd.send(msg.encode())
+
+    elif data['protocol'] == 'QNT':
+        print('server', data)
+        if data['name'] == 'Juban':
+            msg1 = {'protocol':'QNTOK',
+                    're1':{'id': '15', 'title': '第231章 论不要脸', 'nt': '简单向上的故事，这就是通货膨胀的核心，有了《木偶奇遇记》在前，我也相信凭借韩公子的实力，完全能够写的精彩','cre_date': '2019-04-21'},
+                    're2':{'id':'51', 'title': '木偶奇遇记', 'nt': '前者首先在人社上就输了，小王子不如说谎鼻子会边长的匹诺曹更有画面感，再有，字数上差了好几倍，这就意味着剧情上不足', 'cre_date': '2020-01-01'}
+                    }
+            msg1 = json.dumps(msg1)
+            connfd.send(msg1.encode())

@@ -1,7 +1,7 @@
 """
 GUI界面对象
 """
-
+from common.iterableTool import IterableTool
 from PyQt5.QtWidgets import QMainWindow, QWidget
 from PyQt5 import QtCore, QtWidgets, QtGui
 from login_window import *
@@ -9,7 +9,7 @@ from python_dict import *
 from register_page import *
 import time
 import json
-
+import time
 """
 signal: 前4位代表信号头不能改,用来调相应功能的类
 DICT QUE
@@ -150,6 +150,43 @@ class PythonDict(QMainWindow):
             self.loginPage.login_page.login_status_bar.setText('使用笔记功能需要登陆')
             self.loginPage.show()
 
+    def queryNote(self, username):
+        # 当登录成功时，查询用户笔记
+        data = {'protocol': 'QNT', 'name': username}
+        msg = self.control.signal_in('QNT', data)
+        print(msg)
+        self.showNotes(msg)
+
+    def showNotes(self, msg):
+        # 当登录成功时， 查询用户笔记
+        self.qList = []
+        self.notes_re = msg
+        if msg['protocol'] == 'QNTOK':
+            del msg['protocol']
+            for value in msg.values():
+                note_list_item = value['title'] + '  ' + value['cre_date'] + ''
+                self.qList.append(note_list_item)
+            IterableTool.list_order(self.qList, self.list_order_condition)
+            self.main_ui.notes_list.addItems(self.qList)
+            print(self.qList)
+            # value['nt']
+    def notes_list_item_clicked(self):
+        target_obj = self.main_ui.notes_list.currentItem().text()
+
+        self.main_ui.note_edit.setText(target_obj)
+
+    def noteCheckBoxChange(self):
+        # 选中 编辑
+        if self.main_ui.checkBoxNote.isChecked():
+            pass
+        # 取消选中 保存
+        elif not self.main_ui.checkBoxNote.isChecked():
+            pass
+
+    def newNote(self):
+        # 笔记界面的新建按钮点击时 执行该方法
+        self.main_ui.note_title.setDisabled(False)
+        self.main_ui.note_edit.setDisabled(False)
     # def list_pop_menu(self):
     #     self.popMenu = QtWidgets.QMenu(self.main_ui.search_result_list)
     #     self.item_del = QtWidgets.QAction(QtGui.QIcon('./img/del.jpg'), '删除', self)
@@ -194,12 +231,13 @@ class PythonDict(QMainWindow):
                 title = 'Python Dictionary - ' + data['name']
                 self.setWindowTitle(title)
                 self.main_ui.tab_note.setDisabled(False)
+                self.queryNote(data['name'])
 
     def autologin(self):
-        f = open(r'C:/jabna.txt', 'r')
         try:
+            f = open(r'C:/jabna.txt', 'r')
             data = json.loads(f.read())
-        except json.decoder.JSONDecodeError as e:
+        except Exception:
             pass
         else:
             if type(data) is dict:
@@ -209,6 +247,19 @@ class PythonDict(QMainWindow):
                         title = 'Python Dictionary - ' + data['name']
                         self.setWindowTitle(title)
                         self.main_ui.tab_note.setDisabled(False)
+                        self.queryNote(data['name'])
+
+    @staticmethod
+    def list_order_condition(i1, i2):
+        """
+            用来作为list_order 的func_condition参数
+            定义了list_order对参数iterable进行排序的条件
+        :param i1: 参数意义还请参考 list_order 源码
+        :param i2: 参数意义还请参考 list_order 源码
+        :return: bool
+        """
+        return time.mktime(time.strptime(i1[-10:], '%Y-%m-%d')) < time.mktime(time.strptime(i2[-10:], '%Y-%m-%d'))
+
 
 class LoginWindow(QWidget):
     """

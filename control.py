@@ -21,7 +21,8 @@ class Control:
             return self.logLg.login(data)
         elif signal == 'REG':
             return self.regLg.register(data)
-
+        elif signal == 'QNT':
+            return self.noteLg.queryNote(data)
 
 class Logic:
     def __init__(self):
@@ -39,8 +40,11 @@ class NoteLogic:
         print('逻辑成功')
         print(data)
 
-    def showxxx(self):
-        pass
+    def queryNote(self, data):
+        self.client.send(data)
+        msg = self.client.recive()
+        return msg
+
 
 class DictLogic:
     def __init__(self, client):

@@ -116,7 +116,7 @@ class Ui_MainWindow(object):
         self.splitter.setObjectName("splitter")
         self.note_edit = QtWidgets.QTextEdit(self.splitter)
         self.note_edit.setObjectName("note_edit")
-        self.notes_list = QtWidgets.QListView(self.splitter)
+        self.notes_list = QtWidgets.QListWidget(self.splitter)
         self.notes_list.setObjectName("notes_list")
         self.gridLayout_5.addWidget(self.splitter, 1, 1, 1, 1)
         self.gridLayout_6.addLayout(self.gridLayout_5, 0, 0, 1, 1)

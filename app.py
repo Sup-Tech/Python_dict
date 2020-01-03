@@ -53,6 +53,17 @@ class ProcessApp:
             self.main_page.main_ui.tab_note.setDisabled(True)
         elif self.main_page.isLogin == True:
             self.main_page.main_ui.tab_note.setDisabled(False)
+        # 笔记界面， 启动程序时， 将笔记界面的标题编辑, 笔记编辑区 禁用
+        self.main_page.main_ui.note_title.setDisabled(True)
+        self.main_page.main_ui.note_edit.setDisabled(True)
+        # 笔记界面，编辑checkbox状态变化时 -->
+        self.main_page.main_ui.checkBoxNote.stateChanged.connect(self.main_page.noteCheckBoxChange)
+        # 笔记界面，新建按钮 -->
+        self.main_page.main_ui.new_button.clicked.connect(self.main_page.newNote)
+        # 笔记界面，note_list 中条目被点击时
+        self.main_page.main_ui.notes_list.itemClicked.connect(self.main_page.notes_list_item_clicked)
+
+
         # 自动登录
         self.main_page.autologin()
 

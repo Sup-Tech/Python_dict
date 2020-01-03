@@ -3,10 +3,12 @@
   <component name="ChangeListManager">
     <list default="true" id="4fe98ef6-1aca-4665-a5c9-d03fafd227fe" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DICT_PROTOCOL.pdf" beforeDir="false" afterPath="$PROJECT_DIR$/DICT_PROTOCOL.pdf" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/control.py" beforeDir="false" afterPath="$PROJECT_DIR$/control.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gui_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui_client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/login_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/login_window.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/python_dict.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_dict.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_server.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -152,8 +154,8 @@
       <list>
         <item itemvalue="Python.main" />
         <item itemvalue="Python.test_server" />
-        <item itemvalue="Python.app" />
         <item itemvalue="Python.test1" />
+        <item itemvalue="Python.app" />
         <item itemvalue="Python.test" />
       </list>
     </recent_temporary>
@@ -204,7 +206,14 @@
       <option name="project" value="LOCAL" />
       <updated>1577986345423</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="记住账户功能添加 登录状态显示 自动登录功能完成 根据登录状态调整笔记功能是否可用">
+      <created>1578050831620</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1578050831620</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -234,7 +243,8 @@
     <MESSAGE value="主界面 登录界面 注册界面 GUI框架完成 | 登录界面代码框架完成" />
     <MESSAGE value="客户端架构重组 字典查询功能核心代码完成" />
     <MESSAGE value="UI界面框架小调整 窗口间交互主代码完成 冻结笔记功能添加" />
-    <option name="LAST_COMMIT_MESSAGE" value="UI界面框架小调整 窗口间交互主代码完成 冻结笔记功能添加" />
+    <MESSAGE value="记住账户功能添加 登录状态显示 自动登录功能完成 根据登录状态调整笔记功能是否可用" />
+    <option name="LAST_COMMIT_MESSAGE" value="记住账户功能添加 登录状态显示 自动登录功能完成 根据登录状态调整笔记功能是否可用" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
