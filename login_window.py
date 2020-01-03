@@ -469,7 +469,7 @@ class Ui_login_page(object):
         self.label_3.setObjectName("label_3")
 
         self.retranslateUi(login_page)
-        self.login.clicked.connect(login_page.login)
+        # self.login.clicked.connect(login_page.login)
         self.cancel_login.clicked.connect(login_page.close)
         self.registerButton.clicked.connect(login_page.close)
         QtCore.QMetaObject.connectSlotsByName(login_page)

@@ -33,7 +33,8 @@ class ProcessApp:
         self.login_page.login_page.registerButton.clicked.connect(self.register_page.show)
         # 注册界面中的注册按钮-->
         self.register_page.register_page.registerButton.clicked.connect(self.main_page.register)
-
+        # 登录界面的登录按钮-->执行main_page的login方法
+        self.login_page.login_page.login.clicked.connect(self.main_page.login)
         # 设置用户名的最长长度
         self.login_page.login_page.username.setMaxLength(12)
         self.register_page.register_page.username_register.setMaxLength(12)
@@ -47,7 +48,13 @@ class ProcessApp:
         # 字典界面，搜索按钮被点击时-->执行方法search
         self.main_page.main_ui.search.clicked.connect(self.main_page.search)
 
-        # 笔记界面，设置笔记界面不可用
-        self.main_page.main_ui.tab_note.setDisabled(True)
+        # 笔记界面，启动程序时，根据是否登录，设置笔记界面是否可用
+        if self.main_page.isLogin == False:
+            self.main_page.main_ui.tab_note.setDisabled(True)
+        elif self.main_page.isLogin == True:
+            self.main_page.main_ui.tab_note.setDisabled(False)
+        # 自动登录
+        self.main_page.autologin()
+
     def close(self):
         sys.exit(self.app.exec_())

@@ -8,7 +8,7 @@ from login_window import *
 from python_dict import *
 from register_page import *
 import time
-
+import json
 
 """
 signal: 前4位代表信号头不能改,用来调相应功能的类
@@ -18,10 +18,14 @@ LOGN
 REGS
 """
 
+
 class PythonDict(QMainWindow):
     """
     主界面
     """
+    isLogin = False
+    isRemMec = False
+
     def __init__(self, control, login_page, register_page):
         """
         param: control -->[class]
@@ -46,6 +50,7 @@ class PythonDict(QMainWindow):
         self.control = control
         self.loginPage = login_page
         self.registerPage = register_page
+        # 创建主窗口
         self.main_ui = Ui_MainWindow(self.loginPage, self.registerPage)
         self.initUI()
         self.main_ui.setupUi(self)
@@ -80,7 +85,7 @@ class PythonDict(QMainWindow):
         # 删除字典中的协议
         del data['protocol']
         self.dict_re_data = data
-    # 把单词查询结果 在界面列表显示出来
+        # 把单词查询结果 在界面列表显示出来
         # 清屏 --> search_result_list
         self.main_ui.search_result_list.clear()
         for value in data.values():
@@ -107,7 +112,6 @@ class PythonDict(QMainWindow):
             if value['word'] == target_obj:
                 print(value)
                 self.dict_result_display_logic(value)
-
 
     def show_failed(self):
         """
@@ -141,14 +145,10 @@ class PythonDict(QMainWindow):
     # ------------------------------------------------------------------------------
     def tabChange(self):
         # 先判定登录状态，如果已登录，则pass
-        if self.main_ui.tabWidget.currentWidget() == self.main_ui.tab_dict:
-            print(self.main_ui.tabWidget.currentWidget())
-            print('target ', self.main_ui.tab_note)
+        if PythonDict.isLogin == False and self.main_ui.tabWidget.currentWidget() == self.main_ui.tab_dict:
             # TODO: 显示登陆窗口，并提示“该功能需要登陆”
+            self.loginPage.login_page.login_status_bar.setText('使用笔记功能需要登陆')
             self.loginPage.show()
-
-    def note_hint(self):
-        print('sds')
 
     # def list_pop_menu(self):
     #     self.popMenu = QtWidgets.QMenu(self.main_ui.search_result_list)
@@ -162,16 +162,14 @@ class PythonDict(QMainWindow):
     # def del_item(self):
     #     print('yes')
 
-        # self.search_result_list.setContextMenuPolicy(3)
-        # self.search_result_list.customContextMenuRequested[QtCore.QPoint].connect(MainWindow.list_pop_menu)
-# ------------------------------------------------------------------------------
+    # self.search_result_list.setContextMenuPolicy(3)
+    # self.search_result_list.customContextMenuRequested[QtCore.QPoint].connect(MainWindow.list_pop_menu)
+    # ------------------------------------------------------------------------------
     # 注册部分
-# ------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------
     def register(self):
-        # TODO: 自动登录功能 注册成功后 自动跳转到登录界面，并将刚刚输入的账户信息填好
         data = self.registerPage.register()
         if data['protocol'] == 'REGOK':
-            # TODO: 自动登录功能 解锁笔记功能 显示已登录状态
             print('mainpage', data)
             # 账户信息填入登录界面对应位置
             self.loginPage.login_page.username.setText(data['username'])
@@ -185,6 +183,33 @@ class PythonDict(QMainWindow):
         else:
             pass
 
+    # ------------------------------------------------------------------------------
+    # 登录部分
+    # ------------------------------------------------------------------------------
+
+    def login(self):
+        data = self.loginPage.login()
+        if data:
+            if PythonDict.isLogin:
+                title = 'Python Dictionary - ' + data['name']
+                self.setWindowTitle(title)
+                self.main_ui.tab_note.setDisabled(False)
+
+    def autologin(self):
+        f = open(r'C:/jabna.txt', 'r')
+        try:
+            data = json.loads(f.read())
+        except json.decoder.JSONDecodeError as e:
+            pass
+        else:
+            if type(data) is dict:
+                data = self.loginPage.autoLogin(data)
+                if data:
+                    if PythonDict.isLogin:
+                        title = 'Python Dictionary - ' + data['name']
+                        self.setWindowTitle(title)
+                        self.main_ui.tab_note.setDisabled(False)
+
 class LoginWindow(QWidget):
     """
         登入界面
@@ -196,25 +221,50 @@ class LoginWindow(QWidget):
     self.remember_me_check = 记住用户 [QCheckBox]
     self.login_status_bar = 登录提示信息  [QLabel]
     """
+
     def __init__(self, control):
         QWidget.__init__(self)
         self.login_page = Ui_login_page()
         self.login_page.setupUi(self)
         self.control = control
 
+    def autoLogin(self, data):
+        result = self.control.signal_in('LOG', data)
+        if result['protocol'] == 'LOGOK':
+            self.show_status('LOGOK')
+            PythonDict.isLogin = True
+            return data
+        elif result['protocol'] == 'LOGUNE':
+            # 无此用户名
+            self.show_status('LOGUNE')
+        elif result['protocol'] == 'LOGWP':
+            # 密码错误
+            self.show_status('LOGWP')
+
     def login(self):
         """
             登录界面的确认按钮 点击后 执行该方法
         :return:
         """
+        # remember_me_check
         data = {'protocol': 'LOG',
-       'name': self.login_page.username.text(),
-       'pwd': self.login_page.password.text()}
+                'name': self.login_page.username.text(),
+                'pwd': self.login_page.password.text()}
         # 向control传信号 return---> data
-        result = self.control.signal_in('LOGOK', data)
+        result = self.control.signal_in('LOG', data)
         # 对data['protocol']判断
         if result['protocol'] == 'LOGOK':
+            if self.login_page.remember_me_check.isChecked():
+                f = open(r'C:/jabna.txt', 'w')
+                content = json.dumps(data)
+                f.write(content)
+            elif not self.login_page.remember_me_check.isChecked():
+                f = open(r'C:/jabna.txt', 'w')
+                f.write('')
+
             self.show_status('LOGOK')
+            PythonDict.isLogin = True
+            return data
         elif result['protocol'] == 'LOGUNE':
             # 无此用户名
             self.show_status('LOGUNE')
@@ -243,6 +293,7 @@ class RegisterWindow(QWidget):
     """
     注册界面
     """
+
     def __init__(self, control):
         QWidget.__init__(self)
         self.register_page = Ui_Form()
@@ -265,7 +316,7 @@ class RegisterWindow(QWidget):
             elif response['protocol'] == 'REGUU':
                 self.register_page.hint_label.setText('用户名已存在')
                 return response
-        #如果两次密码不同
+        # 如果两次密码不同
         else:
             # 提示两次密码不一样
             self.register_page.hint_label.setText('两次的密码不一样')

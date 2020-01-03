@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4fe98ef6-1aca-4665-a5c9-d03fafd227fe" name="Default Changelist" comment="UI界面框架小调整 窗口间交互主代码完成 冻结笔记功能添加">
-      <change afterPath="$PROJECT_DIR$/img/Quantum light logo blod.png" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/img/lock.jpg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/img/unlock.jpg" afterDir="false" />
+    <list default="true" id="4fe98ef6-1aca-4665-a5c9-d03fafd227fe" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/control.py" beforeDir="false" afterPath="$PROJECT_DIR$/control.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gui_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui_client.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_dict.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_dict.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/register_page.py" beforeDir="false" afterPath="$PROJECT_DIR$/register_page.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/login_window.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -202,7 +197,14 @@
       <option name="project" value="LOCAL" />
       <updated>1577601761142</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="UI界面框架小调整 窗口间交互主代码完成 冻结笔记功能添加">
+      <created>1577986345423</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1577986345423</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">

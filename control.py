@@ -17,7 +17,7 @@ class Control:
         """
         if signal == 'QUEDICT':
             return self.dictLg.query(data)
-        elif signal == 'LOGOK':
+        elif signal == 'LOG':
             return self.logLg.login(data)
         elif signal == 'REG':
             return self.regLg.register(data)
