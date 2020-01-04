@@ -7,9 +7,7 @@ from PyQt5 import QtCore, QtWidgets, QtGui
 from login_window import *
 from python_dict import *
 from register_page import *
-import time
-import json
-import time
+import time, json, platform
 
 
 class PythonDict(QMainWindow):
@@ -181,22 +179,24 @@ class PythonDict(QMainWindow):
         """笔记界面 编辑选框状态发生改变时 执行该方法"""
         # 选中 编辑
         if self.main_ui.checkBoxNote.isChecked():
-            pass
+            self.main_ui.checkBoxNote.setText('保存')
+            self.main_ui.checkBoxNote.setIcon(QtGui.QIcon('./img/unlock.png'))
         # 取消选中 保存
         elif not self.main_ui.checkBoxNote.isChecked():
-                if self.main_ui.note_title in self.notes_list():
-                    # 提示笔记标题不能重复
-                    pass
-
+            self.main_ui.checkBoxNote.setText('编辑')
+            self.main_ui.checkBoxNote.setIcon(QtGui.QIcon('./img/lock.png'))
+            if self.main_ui.note_title in self.notes_list():
+                # 提示笔记标题不能重复
+                pass
 
     def newNote(self):
         """笔记界面的新建按钮点击时 执行该方法"""
         # 检测是否有正在编辑的内容
         if self.main_ui.checkBoxNote.isChecked():
-            #提示 先保存当前编辑的内容
+            # 提示 先保存当前编辑的内容
             print('先保存当前编辑的内容')
         elif not self.main_ui.checkBoxNote.isChecked():
-            #新建笔记 清空目前的编辑框内内容
+            # 新建笔记 清空目前的编辑框内内容
             self.num = 1 # 计数
             for tmp in self.notes_list():
                 if tmp[0:4] == '新建笔记':
@@ -255,28 +255,33 @@ class PythonDict(QMainWindow):
 
     def login(self):
         data = self.loginPage.login()
-        if data:
-            if PythonDict.isLogin:
-                title = 'Python Dictionary - ' + data['name']
-                self.setWindowTitle(title)
-                self.main_ui.tab_note.setDisabled(False)
-                self.queryNote(data['name'])
+        if PythonDict.isLogin:
+            title = 'Python Dictionary - ' + data['name']
+            self.setWindowTitle(title)
+            self.main_ui.tab_note.setDisabled(False)
+            self.queryNote(data['name'])
 
     def autologin(self):
         try:
-            f = open(r'/Users/Zuban/jabna.txt', 'r')
+            # 打开储存的本地账户文件
+            f = self.control.signal_in('OPENF', 'r')
+            # 将字符串格式的字典 转换回字典
             data = json.loads(f.read())
         except Exception:
             pass
         else:
             if type(data) is dict:
                 data = self.loginPage.autoLogin(data)
-                if data:
-                    if PythonDict.isLogin:
-                        title = 'Python Dictionary - ' + data['name']
-                        self.setWindowTitle(title)
-                        self.main_ui.tab_note.setDisabled(False)
-                        self.queryNote(data['name'])
+            self.autologin_2(data)
+
+    def autologin_2(self, data):
+        if PythonDict.isLogin:
+            title = 'Python Dictionary - ' + data['name']
+            self.setWindowTitle(title)
+            self.main_ui.tab_note.setDisabled(False)
+            self.queryNote(data['name'])
+
+
 
     @staticmethod
     def list_order_condition(i1, i2):
@@ -316,10 +321,12 @@ class LoginWindow(QWidget):
             return data
         elif result['protocol'] == 'LOGUNE':
             # 无此用户名
-            self.show_status('LOGUNE')
+            self.show()
+            self.show_status('autoLOGUNE')
         elif result['protocol'] == 'LOGWP':
             # 密码错误
-            self.show_status('LOGWP')
+            self.show()
+            self.show_status('autoLOGWP')
 
     def login(self):
         """
@@ -335,11 +342,11 @@ class LoginWindow(QWidget):
         # 对data['protocol']判断
         if result['protocol'] == 'LOGOK':
             if self.login_page.remember_me_check.isChecked():
-                f = open(r'/Users/Zuban/jabna.txt', 'w')
+                f = self.control.signal_in('OPENF', 'w')
                 content = json.dumps(data)
                 f.write(content)
             elif not self.login_page.remember_me_check.isChecked():
-                f = open(r'/Users/Zuban/jabna.txt', 'w')
+                f = self.control.signal_in('OPENF', 'w')
                 f.write('')
 
             self.show_status('LOGOK')
@@ -365,6 +372,8 @@ class LoginWindow(QWidget):
             self.close()
         elif data == 'LOGUNE':
             self.login_page.login_status_bar.setText('用户名不存在')
+        elif data == 'autoLOGUNE' or data == 'autoLOGWP':
+            self.login_page.login_status_bar.setText('自动登录失败')
         elif data == 'LOGWP':
             self.login_page.login_status_bar.setText('用户名或密码错误')
 
