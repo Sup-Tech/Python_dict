@@ -10,13 +10,6 @@ from register_page import *
 import time
 import json
 import time
-"""
-signal: 前4位代表信号头不能改,用来调相应功能的类
-DICT QUE
-NOTE
-LOGN
-REGS
-"""
 
 
 class PythonDict(QMainWindow):
@@ -144,6 +137,7 @@ class PythonDict(QMainWindow):
     # Note 部分代码
     # ------------------------------------------------------------------------------
     def tabChange(self):
+        """ 当主界面的两个页面的标签变换时 执行此方法"""
         # 先判定登录状态，如果已登录，则pass
         if PythonDict.isLogin == False and self.main_ui.tabWidget.currentWidget() == self.main_ui.tab_dict:
             # TODO: 显示登陆窗口，并提示“该功能需要登陆”
@@ -151,42 +145,79 @@ class PythonDict(QMainWindow):
             self.loginPage.show()
 
     def queryNote(self, username):
-        # 当登录成功时，查询用户笔记
+        """当用户登录成功时 自动执行此方法"""
+        # 创建笔记查询data
         data = {'protocol': 'QNT', 'name': username}
+        # 当登录成功时，查询用户笔记
         msg = self.control.signal_in('QNT', data)
-        print(msg)
+        # 将服务器返回的用户笔记显示出来
         self.showNotes(msg)
 
     def showNotes(self, msg):
+        """笔记界面 显示服务器返回的用户笔记数据"""
         # 当登录成功时， 查询用户笔记
-        self.qList = []
-        self.notes_re = msg
+        self.qList = [] # 存放self.notes_list 中显示的内容
+        self.notes_re = msg # 将msg赋值给实例变量 方便后续其它类实例使用
+
         if msg['protocol'] == 'QNTOK':
             del msg['protocol']
+            print('notes_re', self.notes_re)
             for value in msg.values():
                 note_list_item = value['title'] + '  ' + value['cre_date'] + ''
                 self.qList.append(note_list_item)
             IterableTool.list_order(self.qList, self.list_order_condition)
             self.main_ui.notes_list.addItems(self.qList)
             print(self.qList)
-            # value['nt']
-    def notes_list_item_clicked(self):
-        target_obj = self.main_ui.notes_list.currentItem().text()
 
-        self.main_ui.note_edit.setText(target_obj)
+    def notes_list_item_clicked(self):
+        """笔记界面 笔记列表中的item被点击时 执行该方法"""
+        target_obj = self.main_ui.notes_list.currentItem().text()
+        print(target_obj[0:-12])
+        for value in self.notes_re.values():
+            if value['title'] == target_obj[0:-12]:
+                self.main_ui.note_edit.setText(value['nt'])
 
     def noteCheckBoxChange(self):
+        """笔记界面 编辑选框状态发生改变时 执行该方法"""
         # 选中 编辑
         if self.main_ui.checkBoxNote.isChecked():
             pass
         # 取消选中 保存
         elif not self.main_ui.checkBoxNote.isChecked():
-            pass
+                if self.main_ui.note_title in self.notes_list():
+                    # 提示笔记标题不能重复
+                    pass
+
 
     def newNote(self):
-        # 笔记界面的新建按钮点击时 执行该方法
-        self.main_ui.note_title.setDisabled(False)
-        self.main_ui.note_edit.setDisabled(False)
+        """笔记界面的新建按钮点击时 执行该方法"""
+        # 检测是否有正在编辑的内容
+        if self.main_ui.checkBoxNote.isChecked():
+            #提示 先保存当前编辑的内容
+            print('先保存当前编辑的内容')
+        elif not self.main_ui.checkBoxNote.isChecked():
+            #新建笔记 清空目前的编辑框内内容
+            self.num = 1 # 计数
+            for tmp in self.notes_list():
+                if tmp[0:4] == '新建笔记':
+                    self.num += 1
+            title = '新建笔记' + str(self.num)
+            self.main_ui.note_title.setText(title)
+            self.main_ui.note_edit.clear()
+            self.main_ui.note_title.setDisabled(False)
+            self.main_ui.note_edit.setDisabled(False)
+            self.main_ui.checkBoxNote.setChecked(True)
+
+    def notes_list(self):
+        """
+            获取笔记列表所有笔记标题
+            :return --> [list]
+        """
+        self.tlist = [] # 存放笔记列表所有笔记标题
+        count = self.main_ui.notes_list.count()
+        for i in range(count):
+            self.tlist.append(self.main_ui.notes_list.item(i).text()[0:-12])
+        return self.tlist
     # def list_pop_menu(self):
     #     self.popMenu = QtWidgets.QMenu(self.main_ui.search_result_list)
     #     self.item_del = QtWidgets.QAction(QtGui.QIcon('./img/del.jpg'), '删除', self)
@@ -201,6 +232,7 @@ class PythonDict(QMainWindow):
 
     # self.search_result_list.setContextMenuPolicy(3)
     # self.search_result_list.customContextMenuRequested[QtCore.QPoint].connect(MainWindow.list_pop_menu)
+
     # ------------------------------------------------------------------------------
     # 注册部分
     # ------------------------------------------------------------------------------
@@ -217,9 +249,6 @@ class PythonDict(QMainWindow):
             # 关闭注册界面
             self.registerPage.close()
 
-        else:
-            pass
-
     # ------------------------------------------------------------------------------
     # 登录部分
     # ------------------------------------------------------------------------------
@@ -235,7 +264,7 @@ class PythonDict(QMainWindow):
 
     def autologin(self):
         try:
-            f = open(r'C:/jabna.txt', 'r')
+            f = open(r'/Users/Zuban/jabna.txt', 'r')
             data = json.loads(f.read())
         except Exception:
             pass
@@ -306,11 +335,11 @@ class LoginWindow(QWidget):
         # 对data['protocol']判断
         if result['protocol'] == 'LOGOK':
             if self.login_page.remember_me_check.isChecked():
-                f = open(r'C:/jabna.txt', 'w')
+                f = open(r'/Users/Zuban/jabna.txt', 'w')
                 content = json.dumps(data)
                 f.write(content)
             elif not self.login_page.remember_me_check.isChecked():
-                f = open(r'C:/jabna.txt', 'w')
+                f = open(r'/Users/Zuban/jabna.txt', 'w')
                 f.write('')
 
             self.show_status('LOGOK')
