@@ -2,7 +2,7 @@
 GUI界面对象
 """
 from common.iterableTool import IterableTool
-from PyQt5.QtWidgets import QMainWindow, QWidget
+from PyQt5.QtWidgets import QMainWindow, QWidget, QMessageBox, QHBoxLayout, QLabel, QPushButton, QFrame
 from PyQt5 import QtCore, QtWidgets, QtGui
 from login_window import *
 from python_dict import *
@@ -47,6 +47,15 @@ class PythonDict(QMainWindow):
         self.main_ui.setupUi(self)
         # 字典查询结果
         self.dict_re_data = {}
+        # 用户名
+        self.username = None
+        # 笔记双击编辑对象
+        self.notes = {}  # 从服务器返回的用户笔记数据
+        self.note_signal = None  # 笔记部分的信号 表示笔记部分正在进行实名
+        self.target = {}  # 列表中正在被编辑的笔记数据
+        self.current_item = None  # 列表中正在被编辑的item -->[obj]
+        self.qList = []  # 存放self.notes_list 中显示的内容
+        self.isItemSelected = False
 
     def initUI(self):
         """
@@ -137,8 +146,8 @@ class PythonDict(QMainWindow):
     def tabChange(self):
         """ 当主界面的两个页面的标签变换时 执行此方法"""
         # 先判定登录状态，如果已登录，则pass
-        if PythonDict.isLogin == False and self.main_ui.tabWidget.currentWidget() == self.main_ui.tab_dict:
-            # TODO: 显示登陆窗口，并提示“该功能需要登陆”
+        if not PythonDict.isLogin \
+                and self.main_ui.tabWidget.currentWidget() == self.main_ui.tab_dict:
             self.loginPage.login_page.login_status_bar.setText('使用笔记功能需要登陆')
             self.loginPage.show()
 
@@ -147,96 +156,223 @@ class PythonDict(QMainWindow):
         # 创建笔记查询data
         data = {'protocol': 'QNT', 'name': username}
         # 当登录成功时，查询用户笔记
-        msg = self.control.signal_in('QNT', data)
+        self.notes = self.control.signal_in('QNT', data)
         # 将服务器返回的用户笔记显示出来
-        self.showNotes(msg)
+        self.showNotes(self.notes)
 
     def showNotes(self, msg):
         """笔记界面 显示服务器返回的用户笔记数据"""
         # 当登录成功时， 查询用户笔记
-        self.qList = [] # 存放self.notes_list 中显示的内容
-        self.notes_re = msg # 将msg赋值给实例变量 方便后续其它类实例使用
-
+        self.qList = []
         if msg['protocol'] == 'QNTOK':
             del msg['protocol']
-            print('notes_re', self.notes_re)
+            print('self.notes', self.notes)
             for value in msg.values():
-                note_list_item = value['title'] + '  ' + value['cre_date'] + ''
-                self.qList.append(note_list_item)
+                value['tc'] = value['title'] + '  ' + value['cre_date']
+                self.qList.append(value['tc'])
             IterableTool.list_order(self.qList, self.list_order_condition)
+            self.main_ui.notes_list.clear()
+            self.isItemSelected = False
             self.main_ui.notes_list.addItems(self.qList)
-            print(self.qList)
-
-    def notes_list_item_clicked(self):
-        """笔记界面 笔记列表中的item被点击时 执行该方法"""
-        target_obj = self.main_ui.notes_list.currentItem().text()
-        print(target_obj[0:-12])
-        for value in self.notes_re.values():
-            if value['title'] == target_obj[0:-12]:
-                self.main_ui.note_edit.setText(value['nt'])
-
-    def noteCheckBoxChange(self):
-        """笔记界面 编辑选框状态发生改变时 执行该方法"""
-        # 选中 编辑
-        if self.main_ui.checkBoxNote.isChecked():
-            self.main_ui.checkBoxNote.setText('保存')
-            self.main_ui.checkBoxNote.setIcon(QtGui.QIcon('./img/unlock.png'))
-        # 取消选中 保存
-        elif not self.main_ui.checkBoxNote.isChecked():
-            self.main_ui.checkBoxNote.setText('编辑')
-            self.main_ui.checkBoxNote.setIcon(QtGui.QIcon('./img/lock.png'))
-            if self.main_ui.note_title in self.notes_list():
-                # 提示笔记标题不能重复
-                pass
+            print('self.qList', self.qList)
 
     def newNote(self):
         """笔记界面的新建按钮点击时 执行该方法"""
+        self.main_ui.notes_list.setCurrentItem(self.main_ui.notes_list.currentItem(),
+                                               QtCore.QItemSelectionModel.Deselect)
+        self.isItemSelected = False
         # 检测是否有正在编辑的内容
         if self.main_ui.checkBoxNote.isChecked():
             # 提示 先保存当前编辑的内容
-            print('先保存当前编辑的内容')
+            self.msgBox('二货', '麻烦先保存当前编辑的内容')
         elif not self.main_ui.checkBoxNote.isChecked():
             # 新建笔记 清空目前的编辑框内内容
-            self.num = 1 # 计数
+            num = 1  # 计数
             for tmp in self.notes_list():
                 if tmp[0:4] == '新建笔记':
-                    self.num += 1
-            title = '新建笔记' + str(self.num)
+                    num += 1
+            title = '新建笔记' + str(num)
             self.main_ui.note_title.setText(title)
             self.main_ui.note_edit.clear()
-            self.main_ui.note_title.setDisabled(False)
-            self.main_ui.note_edit.setDisabled(False)
-            self.main_ui.checkBoxNote.setChecked(True)
+            self.note_signal = 'CNT'
+            self.note_edit()
+
+    def notes_list_item_Dclicked(self):
+        """
+            笔记界面 笔记列表中的item被双击时 执行该方法
+                修改笔记
+        """
+        if not self.main_ui.checkBoxNote.isChecked():
+            target_obj = self.main_ui.notes_list.currentItem().text()
+            for value in self.notes.values():
+                if value['tc'] == target_obj:
+                    self.main_ui.note_edit.setText(value['nt'])
+                    self.main_ui.note_title.setText(value['title'])
+                    self.main_ui.note_profile.setText(value['cre_date'])
+                    self.target = value
+                    print('target:', self.target)
+            self.current_item = self.main_ui.notes_list.currentItem()
+            self.note_signal = 'ALTNT'
+            self.note_edit()
+            print('编辑中...')
+
+    def alter_item(self):
+        target_obj = self.main_ui.notes_list.currentItem().text()
+        print(target_obj)
+        print(self.notes)
+        for value in self.notes.values():
+            print(value)
+            if value['tc'] == target_obj:
+                self.main_ui.note_edit.setText(value['nt'])
+                self.main_ui.note_title.setText(value['title'])
+                self.main_ui.note_profile.setText(value['cre_date'])
+                self.target = value
+                print('target:', self.target)
+        self.current_item = self.main_ui.notes_list.currentItem()
+        self.note_signal = 'ALTNT'
+        self.note_edit()
+
+    def noteCheckBoxChange(self):
+        """笔记界面 编辑选框状态发生改变时 执行该方法"""
+
+        # 选中 编辑
+        if self.main_ui.checkBoxNote.isChecked() and not self.isItemSelected:
+            print('checked')
+            self.note_edit()
+        # 取消选中 保存
+        elif not self.main_ui.checkBoxNote.isChecked():
+            print('no checked')
+            self.note_save()
+        elif self.isItemSelected and self.main_ui.checkBoxNote.isChecked():
+            self.main_ui.note_hint.clear()
+            self.alter_item()
+
+    # def notes_list_item_clicked(self):
+    #     """笔记界面 笔记列表中的item被点击时 执行该方法"""
+    #     if self.main_ui.checkBoxNote.isChecked():
+    #             print('请先保存')
+    #     elif not self.main_ui.checkBoxNote.isChecked():
+    #         target_obj = self.main_ui.notes_list.currentItem().text()
+    #         print(target_obj[0:-12])
+    #         for value in self.notes_re.values():
+    #             if value['tc'] == target_obj:
+    #                 self.main_ui.note_edit.setText(value['nt'])
+
+    def note_edit(self):
+        """笔记界面 编辑"""
+        if self.note_signal == 'CNT':
+            self.edit_status()
+        elif self.note_signal == 'ALTNT':
+            self.edit_status()
+        elif not self.isItemSelected:
+            self.main_ui.note_hint.setText('出错了，要编辑什么？')
+            self.main_ui.checkBoxNote.nextCheckState()
+
+    def note_save(self):
+        """笔记界面 保存"""
+        # 修改笔记
+        print('self.target', self.target)
+        if self.note_signal == 'ALTNT' and self.target:
+            if self.target['title'] != self.main_ui.note_title.text() or \
+                    self.target['nt'] != self.main_ui.note_edit.toPlainText():
+                data = {'protocol': 'ALTNT', 'name': self.username, 'id': self.target['id'],
+                        'title': self.main_ui.note_title.text(), 'nt': self.main_ui.note_edit.toPlainText()}
+                msg = self.control.signal_in('ALTNT', data)
+                if msg['protocol'] == 'ALTNTOK':
+                    # 修改成功 改为保存后的界面状态
+                    self.msgBox('更新成功', '修改内容已同步到服务器')
+                    # 如果笔记修改成功，重新查询笔记
+                    self.queryNote(self.username)
+            else:
+                self.main_ui.note_hint.setText('检测到内容没有修改，已取消编辑')
+            self.save_status()
+            print(self.isItemSelected)
+
+        # 新建笔记保存
+        elif self.note_signal == 'CNT':
+            data = {'protocol': 'CNT', 'name': self.username,
+                    'title': self.main_ui.note_title.text(), 'nt': self.main_ui.note_edit.toPlainText()}
+            # 发送新建笔记的数据给服务端
+            msg = self.control.signal_in('CNT', data)
+            if msg['protocol'] == 'CNTOK':
+                self.save_status()
+                self.queryNote(self.username)
+
+    def select_changed(self):
+        self.isItemSelected = True
+        if self.main_ui.checkBoxNote.isChecked() and self.note_signal == 'ALTNT':
+            self.main_ui.notes_list.setCurrentItem(self.current_item)
+            self.main_ui.note_hint.setText('二货你正写着呢，控制下自己')
+        elif self.main_ui.checkBoxNote.isChecked() and self.note_signal == 'CNT':
+            self.main_ui.note_hint.setText('二货你正写着呢，控制下自己')
+            self.main_ui.notes_list.setCurrentItem(self.main_ui.notes_list.currentItem(),
+                                                   QtCore.QItemSelectionModel.Deselect)
+        else:
+            pass
+
+    def msgBox(self, title, content):
+        # 请先保存当前内容提示框
+        QMessageBox.information(self, title, content)
 
     def notes_list(self):
         """
             获取笔记列表所有笔记标题
             :return --> [list]
         """
-        self.tlist = [] # 存放笔记列表所有笔记标题
+        self.tlist = []  # 存放笔记列表所有笔记标题
         count = self.main_ui.notes_list.count()
         for i in range(count):
             self.tlist.append(self.main_ui.notes_list.item(i).text()[0:-12])
         return self.tlist
-    # def list_pop_menu(self):
-    #     self.popMenu = QtWidgets.QMenu(self.main_ui.search_result_list)
-    #     self.item_del = QtWidgets.QAction(QtGui.QIcon('./img/del.jpg'), '删除', self)
-    #     self.popMenu.addAction(self.item_del)
-    #     # popMenu出现在窗口的位置
-    #     self.popMenu.exec_(QtGui.QCursor.pos())
-    #     if self.item_del.isEnabled():
-    #         self.del_item()
-    #
-    # def del_item(self):
-    #     print('yes')
 
-    # self.search_result_list.setContextMenuPolicy(3)
-    # self.search_result_list.customContextMenuRequested[QtCore.QPoint].connect(MainWindow.list_pop_menu)
+    def edit_status(self):
+        """编辑时的界面状态"""
+        self.main_ui.checkBoxNote.setText('保存')
+        self.main_ui.checkBoxNote.setIcon(QtGui.QIcon('./img/unlock.png'))
+        self.main_ui.checkBoxNote.setChecked(True)
+        self.main_ui.note_edit.setDisabled(False)
+        self.main_ui.note_title.setDisabled(False)
+        print('编辑界面...')
+
+    def save_status(self):
+        """保存后的界面状态"""
+        self.note_signal = None
+        self.target = None
+        self.main_ui.checkBoxNote.setText('编辑')
+        self.main_ui.checkBoxNote.setIcon(QtGui.QIcon('./img/lock.png'))
+        self.main_ui.checkBoxNote.setChecked(False)
+        self.main_ui.note_edit.setDisabled(True)
+        self.main_ui.note_title.setDisabled(True)
+        self.main_ui.note_edit.clear()
+        self.main_ui.note_title.clear()
+        self.main_ui.note_profile.clear()
+
+    def list_pop_menu(self):
+        self.popMenu = QtWidgets.QMenu(self.main_ui.notes_list)
+        self.del_item = QtWidgets.QAction(QtGui.QIcon('./img/del1.png'), '删除', self)
+        self.popMenu.addAction(self.del_item)
+        # popMenu出现在窗口的位置
+        self.popMenu.exec_(QtGui.QCursor.pos())
+        if self.del_item.isEnabled():
+            self.current_item = self.main_ui.notes_list.currentItem()
+            self.delete_item()
+
+    def delete_item(self):
+        data = None
+        for value in self.notes.values():
+            print(self.notes)
+            if self.current_item.text() == value['tc']:
+                data = {'protocol': 'DELNT', 'name': self.username, 'id': value['id']}
+        result = self.control.signal_in('request', data)
+        if result['protocol'] == 'DELNTOK':
+            self.main_ui.note_hint.setText('删除成功')
+            self.queryNote(self.username)
 
     # ------------------------------------------------------------------------------
     # 注册部分
     # ------------------------------------------------------------------------------
     def register(self):
+        """ 注册界面的注册按钮 点击后 执行此方法"""
         data = self.registerPage.register()
         if data['protocol'] == 'REGOK':
             print('mainpage', data)
@@ -254,14 +390,12 @@ class PythonDict(QMainWindow):
     # ------------------------------------------------------------------------------
 
     def login(self):
+        """登录界面 登录按钮点击时 执行此方法"""
         data = self.loginPage.login()
-        if PythonDict.isLogin:
-            title = 'Python Dictionary - ' + data['name']
-            self.setWindowTitle(title)
-            self.main_ui.tab_note.setDisabled(False)
-            self.queryNote(data['name'])
+        self.login_success(data)
 
-    def autologin(self):
+    def check_account_file(self):
+        """ 检测账户文件，判断用户是否记住账户 """
         try:
             # 打开储存的本地账户文件
             f = self.control.signal_in('OPENF', 'r')
@@ -272,16 +406,16 @@ class PythonDict(QMainWindow):
         else:
             if type(data) is dict:
                 data = self.loginPage.autoLogin(data)
-            self.autologin_2(data)
+            self.login_success(data)
 
-    def autologin_2(self, data):
+    def login_success(self, data):
+        """ 检查是否成功登录，成功则显示已登录状态"""
         if PythonDict.isLogin:
             title = 'Python Dictionary - ' + data['name']
             self.setWindowTitle(title)
             self.main_ui.tab_note.setDisabled(False)
             self.queryNote(data['name'])
-
-
+            self.username = data['name']
 
     @staticmethod
     def list_order_condition(i1, i2):
@@ -330,7 +464,7 @@ class LoginWindow(QWidget):
 
     def login(self):
         """
-            登录界面的确认按钮 点击后 执行该方法
+            登录执行的逻辑 由 PythonDict的login方法 调用，
         :return:
         """
         # remember_me_check
@@ -367,8 +501,6 @@ class LoginWindow(QWidget):
         """
         if data == 'LOGOK':
             self.login_page.login_status_bar.setText('登录成功')
-            # TODO: 登录- 解锁笔记功能 显示已登录状态
-            print('登录成功')
             self.close()
         elif data == 'LOGUNE':
             self.login_page.login_status_bar.setText('用户名不存在')

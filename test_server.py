@@ -48,8 +48,24 @@ while True:
         print('server', data)
         if data['name'] == 'Juban':
             msg1 = {'protocol':'QNTOK',
-                    're1':{'id': '15', 'title': '第231章 论不要脸', 'nt': '简单向上的故事，这就是通货膨胀的核心，有了《木偶奇遇记》在前，我也相信凭借韩公子的实力，完全能够写的精彩','cre_date': '2019-04-21'},
-                    're2':{'id':'51', 'title': '木偶奇遇记', 'nt': '前者首先在人社上就输了，小王子不如说谎鼻子会边长的匹诺曹更有画面感，再有，字数上差了好几倍，这就意味着剧情上不足', 'cre_date': '2020-01-01'}
-                    }
+              're1':{'id': '15', 'title': '第231章 论不要脸', 'nt': '简单向上的故事，这就是通货膨胀的核心，有了《木偶奇遇记》在前，我也相信凭借韩公子的实力，完全能够写的精彩','cre_date': '2019-04-21'},
+              're2':{'id':'51', 'title': '木偶奇遇记', 'nt': '前者首先在人社上就输了，小王子不如说谎鼻子会边长的匹诺曹更有画面感，再有，字数上差了好几倍，', 'cre_date': '2020-01-01'},
+              're3':{'id':'60','title':'新建笔记1','nt':'爱仕达覅偶后续早四驱is接发哦if','cre_date':'2020-01-05'}}
             msg1 = json.dumps(msg1)
             connfd.send(msg1.encode())
+    elif data['protocol'] == 'ALTNT':
+        print(data)
+        msg = {'protocol': 'ALTNTOK'}
+        msg = json.dumps(msg)
+        connfd.send(msg.encode())
+
+    elif data['protocol'] == 'CNT':
+        print('接收成功', data)
+        msg = {'protocol':'CNTOK'}
+        msg = json.dumps(msg)
+        connfd.send(msg.encode())
+
+    elif data['protocol'] == 'DELNT':
+        msg = {'protocol': 'DELNTOK'}
+        msg = json.dumps(msg)
+        connfd.send(msg.encode())

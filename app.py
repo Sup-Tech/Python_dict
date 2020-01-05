@@ -1,6 +1,7 @@
 """
 这个文件用来集成GUI和客户端
 """
+from PyQt5.QtCore import Qt
 from gui_client import *
 from PyQt5.QtWidgets import QApplication
 import sys
@@ -21,7 +22,7 @@ class ProcessApp:
 
     def start(self):
         """
-        显示界面
+        显示界面 界面交互 关联代码
         """
         # 显示主界面
         self.main_page.show()
@@ -60,12 +61,21 @@ class ProcessApp:
         self.main_page.main_ui.checkBoxNote.stateChanged.connect(self.main_page.noteCheckBoxChange)
         # 笔记界面，新建按钮 -->
         self.main_page.main_ui.new_button.clicked.connect(self.main_page.newNote)
+        # 笔记界面 item 选择变化时
+        self.main_page.main_ui.notes_list.itemSelectionChanged.connect(self.main_page.select_changed)
         # 笔记界面，note_list 中条目被点击时
-        self.main_page.main_ui.notes_list.itemClicked.connect(self.main_page.notes_list_item_clicked)
-
+            # 单击
+        # self.main_page.main_ui.notes_list.itemClicked.connect(self.main_page.notes_list_item_clicked)
+            # 双击
+        self.main_page.main_ui.notes_list.itemDoubleClicked.connect(self.main_page.notes_list_item_Dclicked)
+        # self.main_page.main_ui.notes_list.setSelectionModel(QtCore.QItemSelectionModel.)
+        # 笔记列表的右键菜单
+        self.main_page.main_ui.notes_list.setContextMenuPolicy(3)
+        self.main_page.main_ui.notes_list.customContextMenuRequested[QtCore.QPoint].connect(self.main_page.list_pop_menu)
 
         # 自动登录
-        self.main_page.autologin()
+        self.main_page.check_account_file()
+
 
     def close(self):
         sys.exit(self.app.exec_())
