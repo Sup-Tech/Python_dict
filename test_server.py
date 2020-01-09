@@ -26,7 +26,7 @@ while True:
         msg = json.dumps(msg)
         connfd.send(msg.encode())
     elif data['protocol'] == 'LOG':
-        if data['name'] == 'Juban':
+        if data['username'] == 'Juban':
             msg = {'protocol': 'LOGOK'}
         elif data['pwd'] == '1':
             msg = {'protocol': 'LOGWP'}

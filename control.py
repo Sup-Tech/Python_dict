@@ -61,7 +61,7 @@ class LogLogic(Logic):
     def __init__(self, client):
         super(Logic, self).__init__()
         self.client = client
-        self.account_path_Win = r'C:/jabna.txt'
+        self.account_path_Win = r'./jabna.txt'
         self.account_path_Darwin = r'/Users/Zuban/jabna.txt'
 
     def open_account_file(self, model):

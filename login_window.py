@@ -26,54 +26,12 @@ class Ui_login_page(object):
         self.bg_frame.setGeometry(QtCore.QRect(-10, -10, 741, 451))
         self.bg_frame.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
         self.bg_frame.setMouseTracking(True)
-        self.bg_frame.setStyleSheet("*{\n"
-"background:rgb(40,53,88);\n"
-"font-family:Aharoni;\n"
-"\n"
-"}\n"
-"QFrame{\n"
-"background:\n"
-"url(:/newPrefix/4877ef81071025.5cf4430db01f0.jpg);\n"
-"font-size:30px;\n"
-"}\n"
-"QLineEdit{\n"
-"background-color:rgba(229,240,249,200);\n"
-"color:black;\n"
-"font-size:20px;\n"
-"border-style:outset;\n"
-"border-radius:10px;\n"
-"}\n"
-"QLabel{\n"
-"background:rgba(85,170,255,0);\n"
-"color:white;\n"
-"font-size:18px;\n"
-"}\n"
-"QPushButton{\n"
-"background:rgba(99,140,170,100);\n"
-"border-style:outset;\n"
-"border-radius:10px;\n"
-"font-size:20px;\n"
-"font:bold;\n"
-"font-family:微软雅黑;\n"
-"color:white;\n"
-"}\n"
-"QPushButton:Pressed{\n"
-"background-color:rgba(99,140,170,200);\n"
-"border-style:inset;\n"
-"font-size:15px;\n"
-"font-family:微软雅黑;\n"
-"\n"
-"}\n"
-"\n"
-"\n"
-"")
         self.bg_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.bg_frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.bg_frame.setObjectName("bg_frame")
         self.username = QtWidgets.QLineEdit(self.bg_frame)
         self.username.setGeometry(QtCore.QRect(190, 90, 341, 51))
         self.username.setFocusPolicy(QtCore.Qt.StrongFocus)
-        self.username.setStyleSheet("")
         self.username.setObjectName("username")
         self.password = QtWidgets.QLineEdit(self.bg_frame)
         self.password.setGeometry(QtCore.QRect(190, 180, 341, 51))
@@ -223,7 +181,6 @@ class Ui_login_page(object):
         brush.setStyle(QtCore.Qt.SolidPattern)
         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.PlaceholderText, brush)
         self.password.setPalette(palette)
-        self.password.setStyleSheet("")
         self.password.setEchoMode(QtWidgets.QLineEdit.Password)
         self.password.setObjectName("password")
         self.login = QtWidgets.QPushButton(self.bg_frame)
@@ -231,7 +188,6 @@ class Ui_login_page(object):
         self.login.setObjectName("login")
         self.cancel_login = QtWidgets.QPushButton(self.bg_frame)
         self.cancel_login.setGeometry(QtCore.QRect(200, 300, 111, 31))
-        self.cancel_login.setStyleSheet("")
         self.cancel_login.setObjectName("cancel_login")
         self.remember_me_check = QtWidgets.QCheckBox(self.bg_frame)
         self.remember_me_check.setGeometry(QtCore.QRect(200, 270, 171, 21))
@@ -385,11 +341,6 @@ class Ui_login_page(object):
         font.setFamily("Aharoni")
         font.setPointSize(-1)
         self.remember_me_check.setFont(font)
-        self.remember_me_check.setStyleSheet("QCheckBox{\n"
-"background:rgba(240,240,255,0);\n"
-"color:white;\n"
-"font-size:18px;\n"
-"}")
         self.remember_me_check.setIconSize(QtCore.QSize(16, 16))
         self.remember_me_check.setObjectName("remember_me_check")
         self.label = QtWidgets.QLabel(self.bg_frame)
@@ -400,11 +351,6 @@ class Ui_login_page(object):
         font.setBold(True)
         font.setWeight(75)
         self.label.setFont(font)
-        self.label.setStyleSheet("QLabel{\n"
-"background:rgba(85,170,255,0)\n"
-"color:white;\n"
-"font-size:18;\n"
-"}")
         self.label.setObjectName("label")
         self.label_2 = QtWidgets.QLabel(self.bg_frame)
         self.label_2.setGeometry(QtCore.QRect(190, 160, 121, 21))
@@ -414,7 +360,6 @@ class Ui_login_page(object):
         font.setBold(True)
         font.setWeight(75)
         self.label_2.setFont(font)
-        self.label_2.setStyleSheet("")
         self.label_2.setObjectName("label_2")
         self.registerButton = QtWidgets.QPushButton(self.bg_frame)
         self.registerButton.setGeometry(QtCore.QRect(450, 352, 221, 41))
@@ -426,45 +371,14 @@ class Ui_login_page(object):
         font.setWeight(75)
         font.setStyleStrategy(QtGui.QFont.PreferDefault)
         self.registerButton.setFont(font)
-        self.registerButton.setStyleSheet("QPushButton{\n"
-"background:rgba(100,10,51,0);\n"
-"color:white;\n"
-"\n"
-"font-size:20px;\n"
-"font-family:Arial;\n"
-"\n"
-"}\n"
-"QPushButton:hover{\n"
-"background:rgba(130,10,51,120);\n"
-"color:white;\n"
-"cursor:Pointing Hand;\n"
-"font-size:20px;\n"
-"font-family:Arial;\n"
-"}")
         self.registerButton.setObjectName("registerButton")
         self.login_status_bar = QtWidgets.QLineEdit(self.bg_frame)
         self.login_status_bar.setGeometry(QtCore.QRect(50, 400, 571, 20))
         self.login_status_bar.setMouseTracking(False)
-        self.login_status_bar.setStyleSheet("QLineEdit{\n"
-"background:rgba(229,240,249,0);\n"
-"color:white;\n"
-"font:bold;\n"
-"border-style:none;\n"
-"font-size:18px;\n"
-"font-family:微软雅黑;\n"
-"}")
         self.login_status_bar.setReadOnly(True)
         self.login_status_bar.setObjectName("login_status_bar")
         self.label_3 = QtWidgets.QLabel(self.bg_frame)
         self.label_3.setGeometry(QtCore.QRect(50, 372, 531, 20))
-        self.label_3.setStyleSheet("QLineEdit{\n"
-"background:rgba(229,240,249,0);\n"
-"color:white;\n"
-"font:bold;\n"
-"border-style:none;\n"
-"font-size:18px;\n"
-"font-family:微软雅黑;\n"
-"}")
         self.label_3.setText("")
         self.label_3.setObjectName("label_3")
 

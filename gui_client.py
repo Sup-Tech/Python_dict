@@ -3,13 +3,13 @@ GUI界面对象
 """
 from common.iterableTool import IterableTool
 from PyQt5.QtWidgets import QMainWindow, QWidget, QMessageBox, QHBoxLayout, QLabel, QPushButton, QFrame
-from PyQt5 import QtCore, QtWidgets, QtGui
+from PyQt5 import QtCore, QtWidgets, QtGui, QtMultimedia
 from login_window import *
 from python_dict import *
 from register_page import *
 import time, json, platform
-
-
+from read_aloud import Voice
+from PyQt5.QtMultimedia import QSound
 class PythonDict(QMainWindow):
     """
     主界面
@@ -56,6 +56,8 @@ class PythonDict(QMainWindow):
         self.current_item = None  # 列表中正在被编辑的item -->[obj]
         self.qList = []  # 存放self.notes_list 中显示的内容
         self.isItemSelected = False
+        # 创建语音API对象
+        self.voice = Voice()
 
     def initUI(self):
         """
@@ -112,6 +114,15 @@ class PythonDict(QMainWindow):
             if value['word'] == target_obj:
                 print(value)
                 self.dict_result_display_logic(value)
+                print(target_obj)
+                path = self.voice.do_manage(target_obj, 4)
+                print(path)
+                url = QtCore.QUrl.fromLocalFile(path)
+                content = QtMultimedia.QMediaContent(url)
+                player = QtMultimedia.QMediaPlayer()
+                player.setMedia(content)
+                player.setVolume(50.0)
+                player.play()
 
     def show_failed(self):
         """
@@ -411,12 +422,11 @@ class PythonDict(QMainWindow):
     def login_success(self, data):
         """ 检查是否成功登录，成功则显示已登录状态"""
         if PythonDict.isLogin:
-            title = 'Python Dictionary - ' + data['name']
+            title = 'Python Dictionary - ' + data['username']
             self.setWindowTitle(title)
             self.main_ui.tab_note.setDisabled(False)
-            self.queryNote(data['name'])
-            self.username = data['name']
-
+            self.queryNote(data['username'])
+            self.username = data['username']
     @staticmethod
     def list_order_condition(i1, i2):
         """
@@ -446,6 +456,10 @@ class LoginWindow(QWidget):
         self.login_page = Ui_login_page()
         self.login_page.setupUi(self)
         self.control = control
+        self.style = None
+        with open('./login.qss', 'rb') as f:
+            self.style = f.read().decode()
+        self.setStyleSheet(self.style)
 
     def autoLogin(self, data):
         result = self.control.signal_in('LOG', data)
@@ -469,7 +483,7 @@ class LoginWindow(QWidget):
         """
         # remember_me_check
         data = {'protocol': 'LOG',
-                'name': self.login_page.username.text(),
+                'username': self.login_page.username.text(),
                 'pwd': self.login_page.password.text()}
         # 向control传信号 return---> data
         result = self.control.signal_in('LOG', data)

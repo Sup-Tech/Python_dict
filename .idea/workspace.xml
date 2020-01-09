@@ -3,12 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="4fe98ef6-1aca-4665-a5c9-d03fafd227fe" name="Default Changelist" comment="记住账户功能添加 登录状态显示 自动登录功能完成 根据登录状态调整笔记功能是否可用">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/control.py" beforeDir="false" afterPath="$PROJECT_DIR$/control.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/gui_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui_client.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/img/4877ef81071025.5cf4430db01f0.jpg" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/img/Quantum light logo blod.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/python_dict.py" beforeDir="false" afterPath="$PROJECT_DIR$/python_dict.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/login_window.py" beforeDir="false" afterPath="$PROJECT_DIR$/login_window.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_server.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -33,6 +32,7 @@
     <property name="TODO_SCOPE" value="All Places" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="restartRequiresConfirmation" value="false" />
+    <property name="settings.editor.selected.configurable" value="com.jetbrains.python.configuration.PyActiveSdkModuleConfigurable" />
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -47,27 +47,6 @@
     </option>
   </component>
   <component name="RunManager" selected="Python.main">
-    <configuration name="app" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="dict_group_project" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
     <configuration name="gui_client" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="dict_group_project" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -110,7 +89,28 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="test1" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="playsound" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="dict_group_project" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$USER_HOME$/AppData/Local/Programs/Python/Python37/Lib/site-packages/playsound.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="read_aloud" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="dict_group_project" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -122,7 +122,7 @@
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test1.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/read_aloud.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -157,8 +157,8 @@
         <item itemvalue="Python.main" />
         <item itemvalue="Python.test_server" />
         <item itemvalue="Python.gui_client" />
-        <item itemvalue="Python.test1" />
-        <item itemvalue="Python.app" />
+        <item itemvalue="Python.read_aloud" />
+        <item itemvalue="Python.playsound" />
       </list>
     </recent_temporary>
   </component>
@@ -239,7 +239,14 @@
       <option name="project" value="LOCAL" />
       <updated>1578135701940</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="整体功能完成">
+      <created>1578235238046</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1578235238046</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -284,7 +291,8 @@
     <MESSAGE value="客户端架构重组 字典查询功能核心代码完成" />
     <MESSAGE value="UI界面框架小调整 窗口间交互主代码完成 冻结笔记功能添加" />
     <MESSAGE value="记住账户功能添加 登录状态显示 自动登录功能完成 根据登录状态调整笔记功能是否可用" />
-    <option name="LAST_COMMIT_MESSAGE" value="记住账户功能添加 登录状态显示 自动登录功能完成 根据登录状态调整笔记功能是否可用" />
+    <MESSAGE value="整体功能完成" />
+    <option name="LAST_COMMIT_MESSAGE" value="整体功能完成" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
