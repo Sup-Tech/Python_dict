@@ -1,6 +1,9 @@
 """
 GUI界面对象
 """
+import PyQt5
+from PyQt5.QtCore import QUrl
+
 from common.iterableTool import IterableTool
 from PyQt5.QtWidgets import QMainWindow, QWidget, QMessageBox, QHBoxLayout, QLabel, QPushButton, QFrame
 from PyQt5 import QtCore, QtWidgets, QtGui, QtMultimedia
@@ -9,7 +12,9 @@ from python_dict import *
 from register_page import *
 import time, json, platform
 from read_aloud import Voice
-from PyQt5.QtMultimedia import QSound
+from PyQt5.QtMultimedia import QSound, QAudioFormat
+
+
 class PythonDict(QMainWindow):
     """
     主界面
@@ -117,12 +122,12 @@ class PythonDict(QMainWindow):
                 print(target_obj)
                 path = self.voice.do_manage(target_obj, 4)
                 print(path)
-                url = QtCore.QUrl.fromLocalFile(path)
-                content = QtMultimedia.QMediaContent(url)
-                player = QtMultimedia.QMediaPlayer()
-                player.setMedia(content)
-                player.setVolume(50.0)
-                player.play()
+                file = QUrl.fromLocalFile(path)  # 音频文件路径
+                content = QtMultimedia.QMediaContent(file)
+                self.player = QtMultimedia.QMediaPlayer()
+                self.player.setMedia(content)
+                self.player.setVolume(50.0)
+                self.player.play()
 
     def show_failed(self):
         """
