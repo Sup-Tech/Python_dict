@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="4fe98ef6-1aca-4665-a5c9-d03fafd227fe" name="Default Changelist" comment="记住账户功能添加 登录状态显示 自动登录功能完成 根据登录状态调整笔记功能是否可用">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gui_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/gui_client.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/img/4877ef81071025.5cf4430db01f0.jpg" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -249,7 +247,14 @@
       <option name="project" value="LOCAL" />
       <updated>1578581792351</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="记住账户功能添加 登录状态显示 自动登录功能完成 根据登录状态调整笔记功能是否可用">
+      <created>1578584176339</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1578584176340</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="Vcs.Log.History.Properties">
@@ -293,10 +298,10 @@
     <MESSAGE value="主界面 登录界面 注册界面 GUI框架完成 | 登录界面代码框架完成" />
     <MESSAGE value="客户端架构重组 字典查询功能核心代码完成" />
     <MESSAGE value="UI界面框架小调整 窗口间交互主代码完成 冻结笔记功能添加" />
-    <MESSAGE value="记住账户功能添加 登录状态显示 自动登录功能完成 根据登录状态调整笔记功能是否可用" />
     <MESSAGE value="整体功能完成" />
     <MESSAGE value="DUBUG 1th" />
-    <option name="LAST_COMMIT_MESSAGE" value="DUBUG 1th" />
+    <MESSAGE value="记住账户功能添加 登录状态显示 自动登录功能完成 根据登录状态调整笔记功能是否可用" />
+    <option name="LAST_COMMIT_MESSAGE" value="记住账户功能添加 登录状态显示 自动登录功能完成 根据登录状态调整笔记功能是否可用" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
